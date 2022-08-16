@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "flake8_unused_fixtures"
+version = "0.1.0"
+description = "Warn about unnecesary fixtures in tests definition."
+authors = ["Marcin Binkowski <binq661@gmail.com>"]
+repository = "https://github.com/MarcinBinkowski/flake8_unused_fixtures"
+license = "BSD-2-Clause"
+keywords = ["flake8", "lint"]
+classifiers=[
+    "Intended Audience :: Developers",
+    "Environment :: Console",
+    "Programming Language :: Python :: 3.9",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: BSD License",
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+astpretty = "^3.0.0"
+flake8 = "^5.0.4"
+
+[tool.poetry.dev-dependencies]
+black = "^22.6.0"
+isort = "^5.10.1"
+pytest = "^7.1.2"
+ipdb = "^0.13.9"
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+include_trailing_comma = true
+
+[tool.black]
+line_length = 88
+
+[tool.poetry.plugins]
+[tool.poetry.plugins."flake8.extension"]
+FUF = "flake8_unused_fixtures:Plugin"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
