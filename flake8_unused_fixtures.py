@@ -1,7 +1,13 @@
 import ast
+import sys
 from typing import Any, Generator, List, Tuple, Type, Union
 
 import pkg_resources
+
+if sys.version_info >= (3, 9):
+    from ast import unparse
+else:
+    from astunparse import unparse
 
 MSG = "FUF100 fixture <{}> not used"
 
@@ -33,7 +39,7 @@ class Visitor(ast.NodeVisitor):
             all_fixture_names = [
                 arg.arg for arg in node.args.args if arg.arg not in skip_fixtures
             ]
-            body_as_str = ast.unparse(node.body)
+            body_as_str = unparse(node.body)
             for fixture_name, fixture in zip(all_fixture_names, node.args.args):
                 if fixture_name not in body_as_str:
                     self.problems.append(
