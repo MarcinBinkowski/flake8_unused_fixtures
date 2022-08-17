@@ -114,7 +114,7 @@ def test_many_fixtures_all_unused(keyword, line_1, line_2):
 
 
 @pytest.mark.parametrize("keyword", ("def", "async def"))
-def test_used_fixture_in_class(keyword, line):
+def test_used_fixture_in_class(keyword):
     test_code = f"""
 @pytest.fixture
 {keyword} fxt():
