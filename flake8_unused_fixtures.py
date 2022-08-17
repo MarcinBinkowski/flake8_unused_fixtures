@@ -36,14 +36,11 @@ class Visitor(ast.NodeVisitor):
         if node.name.startswith("test_") or node.name.endswith("_test"):
 
             skip_fixtures = ["self", "cls"]
-            all_fixture_names = [
-                arg.arg for arg in node.args.args if arg.arg not in skip_fixtures
-            ]
             body_as_str = unparse(node.body)
-            for fixture_name, fixture in zip(all_fixture_names, node.args.args):
-                if fixture_name not in body_as_str:
+            for fixture in node.args.args:
+                if fixture.arg not in skip_fixtures and fixture.arg not in body_as_str:
                     self.problems.append(
-                        (fixture.lineno, fixture.col_offset, fixture_name)
+                        (fixture.lineno, fixture.col_offset, fixture.arg)
                     )
 
     def visit_FunctionDef(self, node: ast.FunctionDef):
