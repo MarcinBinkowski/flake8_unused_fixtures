@@ -29,7 +29,10 @@ class Visitor(ast.NodeVisitor):
     ):
         if node.name.startswith("test_") or node.name.endswith("_test"):
 
-            all_fixture_names = [arg.arg for arg in node.args.args]
+            skip_fixtures = ["self", "cls"]
+            all_fixture_names = [
+                arg.arg for arg in node.args.args if arg.arg not in skip_fixtures
+            ]
             body_as_str = ast.unparse(node.body)
             for fixture_name, fixture in zip(all_fixture_names, node.args.args):
                 if fixture_name not in body_as_str:

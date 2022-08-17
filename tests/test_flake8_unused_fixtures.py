@@ -111,3 +111,30 @@ def test_many_fixtures_all_unused(keyword, line_1, line_2):
         f"7:{line_1} FUF100 fixture <fxt> not used",
         f"7:{line_2} FUF100 fixture <fxt2> not used",
     }
+
+
+@pytest.mark.parametrize("keyword", ("def", "async def"))
+def test_used_fixture_in_class(keyword, line):
+    test_code = f"""
+@pytest.fixture
+{keyword} fxt():
+    return 1
+
+class TestCase:
+    {keyword} test_1(self, fxt):
+        assert fxt == 1
+    """
+    assert _results(test_code) == set()
+
+
+@pytest.mark.parametrize("keyword, line", [("def", 15), ("async def", 21)])
+def test_unused_fixture_in_class(keyword, line):
+    test_code = f"""
+@pytest.fixture
+{keyword} fxt():
+    return 1
+class TestCase:
+    {keyword} test_1(self, fxt):
+        assert 1 == 1
+    """
+    assert _results(test_code) == {f"5:{line} FUF100 fixture <fxt> not used"}
