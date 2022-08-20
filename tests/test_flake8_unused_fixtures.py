@@ -103,7 +103,7 @@ def test_many_fixtures(keyword, line):
             assert 1 == 1
         """
     )
-    assert _results(test_code) == {f"7:{line} FUF100 fixture <fxt> not used"}
+    assert _results(test_code) == {f"7:{line} FUF100 fixture <fxt2> not used"}
 
 
 @pytest.mark.parametrize(
@@ -156,3 +156,20 @@ def test_unused_fixture_in_class(keyword, line):
         """
     )
     assert _results(test_code) == {f"5:{line} FUF100 fixture <fxt> not used"}
+
+
+@pytest.mark.parametrize("keyword, line", [("def", 11), ("async def", 17)])
+def test_unused_fixture_as_other_fixture_substring(keyword, line):
+    test_code = textwrap.dedent(
+        f"""
+        @pytest.fixture
+        {keyword} fxt():
+            return 1
+        @pytest.fixture
+        {keyword} fxt2():
+            return 1
+        {keyword} test_1(fxt, fxt2):
+            assert fxt2 == 1
+        """
+    )
+    assert _results(test_code) == {f"7:{line} FUF100 fixture <fxt> not used"}
