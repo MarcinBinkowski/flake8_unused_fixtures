@@ -1,7 +1,7 @@
 import ast
+import re
 import sys
 from typing import Any, Generator, List, Tuple, Type, Union
-import re
 
 import pkg_resources
 
