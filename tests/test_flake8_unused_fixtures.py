@@ -103,7 +103,7 @@ def test_many_fixtures(keyword, line):
             assert 1 == 1
         """
     )
-    assert _results(test_code) == {f"7:{line} FUF100 fixture <fxt2> not used"}
+    assert _results(test_code) == {f"7:{line} FUF100 fixture <fxt> not used"}
 
 
 @pytest.mark.parametrize(
