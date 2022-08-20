@@ -1,4 +1,5 @@
 import ast
+import re
 import sys
 from typing import Any, Generator, List, Tuple, Type, Union
 
@@ -37,8 +38,9 @@ class Visitor(ast.NodeVisitor):
 
             skip_fixtures = ["self", "cls"]
             body_as_str = unparse(node.body)
+            body = re.findall("[a-zA-Z0-9_]+", body_as_str)
             for fixture in node.args.args:
-                if fixture.arg not in skip_fixtures and fixture.arg not in body_as_str:
+                if fixture.arg not in skip_fixtures and fixture.arg not in body:
                     self.problems.append(
                         (fixture.lineno, fixture.col_offset, fixture.arg)
                     )
