@@ -173,3 +173,18 @@ def test_unused_fixture_as_other_fixture_substring(keyword, line):
         """
     )
     assert _results(test_code) == {f"7:{line} FUF100 fixture <fxt> not used"}
+
+
+@pytest.mark.parametrize("name, line", [("self", 21), ("cls", 20), ("_", 18)])
+def test_skipping_names(name, line):
+    test_code = textwrap.dedent(
+        f"""
+        @pytest.fixture
+        def fxt():
+            return 1
+        class TestCase:
+            def test_1({name}, fxt):
+                assert 1 == 1
+        """
+    )
+    assert _results(test_code) == {f"5:{line} FUF100 fixture <fxt> not used"}
