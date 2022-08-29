@@ -36,7 +36,7 @@ class Visitor(ast.NodeVisitor):
     ):
         if node.name.startswith("test_") or node.name.endswith("_test"):
 
-            skip_fixtures = ["self", "cls"]
+            skip_fixtures = ["self", "cls", "_"]
             body_as_str = unparse(node.body)
             body = re.findall("[a-zA-Z0-9_]+", body_as_str)
             for fixture in node.args.args:
