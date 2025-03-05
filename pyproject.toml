@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flake8_unused_fixtures"
-version = "0.3.2"
+version = "0.3.3"
 description = "Warn about unnecessary fixtures in tests' definition."
 authors = ["Marcin Binkowski <binq661@gmail.com>"]
 repository = "https://github.com/MarcinBinkowski/flake8_unused_fixtures"
@@ -19,6 +19,7 @@ classifiers=[
 python = "^3.6"
 flake8 = "*"
 astunparse = "*"
+setuptools = "*"
 
 [tool.poetry.dev-dependencies]
 black = "*"
